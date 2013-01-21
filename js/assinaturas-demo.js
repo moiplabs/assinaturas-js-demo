@@ -27,8 +27,12 @@ $(document).ready(function(){
               $(".alert").fadeIn();
             }
         } else {
-          $(".alert").removeClass("alert-error").addClass("alert-success");
+          $("#to-show").removeClass("alert-error").addClass("alert-success").fadeIn();
           $("#erros").empty().append("<li>Assinatura criado com sucesso</li>");
+          $("#erros").append("<li><strong>Próxima Cobrança:</strong> " + response.next_invoice_date.day + "/" + response.next_invoice_date.month + "/" + response.next_invoice_date.year + "</li>");
+          $("#erros").append("<li><strong>Status do pagamento:</strong> " + response.invoice.status.description + "</li>");
+          $("#erros").append("<li><strong>Status: </strong> " + response.status + "</li>")
+
         }
     });
   });
