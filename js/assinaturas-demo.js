@@ -37,8 +37,29 @@ $(document).ready(function(){
     });
   });
 
+  $("#atualizar").click(function(){
+      var token = $("#token").val();
+      var moip = new MoipAssinaturas(token);
+
+      var customer = new Customer();
+      customer.code = $("#customer_code").val();
+      customer.billing_info = build_new_billing_info(); //Aqui você seta um novo cartão para fazer a cobrança
+
+      moip.update_credit_card(customer).callback(function(data){
+          if(data.has_errors()){
+              alert("Ops.... houveram erros");
+          }else{
+            alert("O cartão de credito foi atualizado");
+          }
+      });
+  });
+
   $("#carregar_dados").click(function(){
     fill_form();
+  });
+
+  $("#carregar_dados_novo_cartao").click(function(){
+    fill_new_billing_info_form();
   });
 });
 
@@ -66,6 +87,16 @@ var build_billing_info = function() {
       expiration_month: $("#expiration_month").val(),
       expiration_year: $("#expiration_year").val(),
       credit_card_number: $("#credit_card").val()
+  };
+  return new BillingInfo(billing_info_params);
+};
+
+var build_new_billing_info = function() {
+  var billing_info_params = {
+      fullname : $("#new_holder_name").val(), 
+      expiration_month: $("#new_expiration_month").val(),
+      expiration_year: $("#new_expiration_year").val(),
+      credit_card_number: $("#new_credit_card").val()
   };
   return new BillingInfo(billing_info_params);
 };
@@ -109,4 +140,10 @@ var fill_form = function() {
     $("#birthdate_day").val("12");
     $("#birthdate_month").val("12");
     $("#birthdate_year").val("1985");
+};
+
+var fill_new_billing_info_form = function() {
+    $("#new_fullname").val("David Luis da Silva");
+    $("#new_holder_name").val("David L Silva");
+    $("#new_credit_card").val("4111111111111111");
 };
