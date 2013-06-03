@@ -9,7 +9,7 @@ $(document).ready(function(){
       return;
     }
 
-    var moip = new MoipAssinaturas(token); 
+    var moip = new MoipAssinaturas(token);
     var customer = build_customer();
     var subscription_code = new Date().getTime(); // INFORME AQUI UM CÓDIGO PARA ESSA ASSINATURA
 
@@ -28,7 +28,7 @@ $(document).ready(function(){
             }
         } else {
           $("#to-show").removeClass("alert-error").addClass("alert-success").fadeIn();
-          $("#erros").empty().append("<li>Assinatura criado com sucesso</li>");
+          $("#erros").empty().append("<li>Assinatura criada com sucesso</li>");
           $("#erros").append("<li><strong>Próxima Cobrança:</strong> " + response.next_invoice_date.day + "/" + response.next_invoice_date.month + "/" + response.next_invoice_date.year + "</li>");
           $("#erros").append("<li><strong>Status do pagamento:</strong> " + response.invoice.status.description + "</li>");
           $("#erros").append("<li><strong>Status: </strong> " + response.status + "</li>")
@@ -47,9 +47,16 @@ $(document).ready(function(){
 
       moip.update_credit_card(customer).callback(function(data){
           if(data.has_errors()){
-              alert("Ops.... houveram erros");
+            $("#to-show").removeClass("alert-success").addClass("alert-error").fadeIn();
+            $("#erros").empty();
+            for (i = 0; i < data.errors.length; i++) {
+              var erro = data.errors[i].description;
+              $("#erros").append("<li>" + erro + "</li>");
+              $(".alert").fadeIn();
+            }
           }else{
-            alert("O cartão de credito foi atualizado");
+            $("#to-show").removeClass("alert-error").addClass("alert-success").fadeIn();
+            $("#erros").empty().append("<li>Cartão de crédito atualizado com sucesso</li>");
           }
       });
   });
@@ -80,10 +87,10 @@ var build_customer = function() {
     }
   return new Customer(customer_params);
 };
- 
+
 var build_billing_info = function() {
   var billing_info_params = {
-      fullname : $("#holder_name").val(), 
+      fullname : $("#holder_name").val(),
       expiration_month: $("#expiration_month").val(),
       expiration_year: $("#expiration_year").val(),
       credit_card_number: $("#credit_card").val()
@@ -93,14 +100,14 @@ var build_billing_info = function() {
 
 var build_new_billing_info = function() {
   var billing_info_params = {
-      fullname : $("#new_holder_name").val(), 
+      fullname : $("#new_holder_name").val(),
       expiration_month: $("#new_expiration_month").val(),
       expiration_year: $("#new_expiration_year").val(),
       credit_card_number: $("#new_credit_card").val()
   };
   return new BillingInfo(billing_info_params);
 };
- 
+
 var build_address = function() {
   var address_params = {
       street: $("#rua").val(),
