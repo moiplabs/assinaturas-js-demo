@@ -74,7 +74,7 @@ var build_customer = function() {
     var customer_params = {
         fullname: $("#fullname").val(),
         email: $("#email").val(),
-        code: slugify($("#fullname").val().toLowerCase()),
+        code: slugify($("#fullname").val().toLowerCase() + " " + new Date().getTime();),
         fullname : $("#fullname").val(),
         cpf : $("#cpf").val(),
         birthdate_day : $("#birthdate_day").val(),
