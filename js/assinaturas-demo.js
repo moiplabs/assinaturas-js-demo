@@ -61,6 +61,38 @@ $(document).ready(function(){
       });
   });
 
+  $("#subscribe_with_customer").click(function(){
+    var token = $("#token").val(); // INFORME AQUI UM CÓDIGO DE UM PLANO SEU
+    var plan_code = $("#plan_code").val(); // INFORME AQUI UM CÓDIGO DE UM PLANO SEU
+    var moip = new MoipAssinaturas(token);
+
+    var customer = new Customer();
+    customer.code = $("#existent_customer_code").val();
+
+    moip.subscribe(
+        new Subscription()
+            .with_code(new Date().getTime())
+            .with_customer(customer)
+            .with_plan_code(plan_code)
+    ).callback(function(response){
+        if (response.has_errors()) {
+            $("#erros").empty();
+            for (i = 0; i < response.errors.length; i++) {
+              var erro = response.errors[i].description;
+              $("#erros").append("<li>" + erro + "</li>");
+              $(".alert").fadeIn();
+            }
+        } else {
+          $("#to-show").removeClass("alert-error").addClass("alert-success").fadeIn();
+          $("#erros").empty().append("<li>Assinatura criado com sucesso</li>");
+          $("#erros").append("<li><strong>Próxima Cobrança:</strong> " + response.next_invoice_date.day + "/" + response.next_invoice_date.month + "/" + response.next_invoice_date.year + "</li>");
+          $("#erros").append("<li><strong>Status do pagamento:</strong> " + response.invoice.status.description + "</li>");
+          $("#erros").append("<li><strong>Status: </strong> " + response.status + "</li>")
+
+        }
+    });
+  });
+
   $("#carregar_dados").click(function(){
     fill_form();
   });
