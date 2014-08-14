@@ -7,7 +7,7 @@
   <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
   <link href="css/assinaturas-demo.css" rel="stylesheet">
 
-  <script type="text/javascript" src="https://sandbox.moip.com.br/moip-assinaturas.min.js"></script> 
+  <script type="text/javascript" src="https://sandbox.moip.com.br/moip-assinaturas.min.js"></script>
   <script type="text/javascript" src="//code.jquery.com/jquery-1.8.3.min.js"></script>
   <script type="text/javascript" src="js/assinaturas-demo.js"></script>
 </head>
@@ -42,6 +42,7 @@
       <div class="tabbable"> <!-- Only required for left/right tabs -->
         <ul class="nav nav-tabs">
           <li class="active"><a href="#tab1" data-toggle="tab">Criar Assinatura</a></li>
+          <li><a href="#tab3" data-toggle="tab">Criar assinatura com Cliente já existente</a></li>
           <li><a href="#tab2" data-toggle="tab">Atualizar cartão de crédito</a></li>
         </ul>
 
@@ -213,7 +214,7 @@
 
       <div class="tab-pane" id="tab2">
         <legend>Atualizar cartão de cliente (<a href="#" id="carregar_dados_novo_cartao">Preencher dados de cartão</a>)</legend>
-        
+
         <div class="control-group">
           <label class="control-label" for="customer_code">Código do cliente</label>
           <div class="controls">
@@ -268,6 +269,66 @@
         </div>
       </form>
     </div>
+
+    <!-- Criar assinatura com cliente já existente -->
+    <div class="tab-pane" id="tab3">
+      <legend>Criar assinatura com Cliente já existente (<a href="#" id="carregar_dados_novo_cartao">Preencher dados de cartão</a>)</legend>
+
+      <div class="control-group">
+        <label class="control-label" for="customer_code">Código do cliente</label>
+        <div class="controls">
+          <input id="existent_customer_code" maxlength="150" name="customer_code" placeholder="Código do seu cliente" type="text">
+        </div>
+      </div>
+      <legend>Novo cartão</legend>
+      <form class="form-horizontal" method="post">
+        <div class="control-group">
+          <label class="control-label" for="holder_name">Nome do Portador</label>
+          <div class="controls">
+            <input id="new_holder_name" maxlength="45" name="new_holder_name" placeholder="Nome escrito no cartão" type="text">
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label" for="credit_card">Número Cartão de Credito</label>
+          <div class="controls">
+            <input id="new_credit_card" maxlength="16" name="new_credit_card" placeholder="XXXXXXXXXXXX1234" type="text">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="credit_card">Data de Expiração</label>
+          <div class="controls">
+            <select name="new_expiration_month" id="new_expiration_month" class="input-mini">
+              <option value="01">01</option>
+              <option value="02">02</option>
+              <option value="03">03</option>
+              <option value="04">04</option>
+              <option value="05">05</option>
+              <option value="06">06</option>
+              <option value="07">07</option>
+              <option value="08">08</option>
+              <option value="09">09</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12" selected="selected">12</option>
+            </select> / <select name="new_expiration_year" id="new_expiration_year" class="input-small">
+            <option value="14">2014</option>
+            <option value="15">2015</option>
+            <option value="16">2016</option>
+            <option value="17">2017</option>
+            <option value="18">2018</option>
+            <option value="19">2019</option>
+            <option value="20" selected="selected">2020</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-actions">
+        <a href="#" class="btn btn-large btn-primary" id="subscribe_with_customer">Assinar</a>
+      </div>
+    </form>
+  </div>
+    <!-- Fim -->
+
   </div>
 </div>
 </body>
