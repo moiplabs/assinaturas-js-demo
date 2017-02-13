@@ -1,4 +1,5 @@
 $(document).ready(function(){
+  MoipAssinaturas.DEBUG_MODE = true;
 
   $("#assinar").click(function(){
     var token = $("#token").val();// COLOQUE AQUI O SEU TOKEN
@@ -9,6 +10,7 @@ $(document).ready(function(){
       return;
     }
 
+    MoipAssinaturas.DEBUG_MODE = true;
     var moip = new MoipAssinaturas(token);
     var customer = build_customer();
     var subscription_code = new Date().getTime(); // INFORME AQUI UM CÓDIGO PARA ESSA ASSINATURA
@@ -86,8 +88,16 @@ $(document).ready(function(){
     });
   });
 
-  $("#carregar_dados").click(function(){
-    fill_form();
+  $("#new_customer").click(function(){
+    var token = $("#token").val(); // INFORME AQUI UM CÓDIGO DE UM PLANO SEU
+    var plan_code = $("#plan_code").val(); // INFORME AQUI UM CÓDIGO DE UM PLANO SEU
+    var moip = new MoipAssinaturas(token);
+    moip.create_customer(build_customer("#tab4"));
+  });
+
+  $(".carregar_dados").click(function(){
+    fill_form("#tab1");
+    fill_form("#tab4");
   });
 
   $("#carregar_dados_novo_cartao").click(function(){
@@ -95,30 +105,29 @@ $(document).ready(function(){
   });
 });
 
-var build_customer = function() {
+var build_customer = function(tab = "#tab1") {
     var customer_params = {
-        fullname: $("#fullname").val(),
-        email: $("#email").val(),
-        code: slugify($("#fullname").val().toLowerCase()),
-        fullname : $("#fullname").val(),
-        cpf : $("#cpf").val(),
-        birthdate_day : $("#birthdate_day").val(),
-        birthdate_month: $("#birthdate_month").val(),
-        birthdate_year: $("#birthdate_year").val(),
-        phone_area_code: $("#ddd").val(),
-        phone_number: $("#phone").val(),
+        fullname: $(tab + "  input[name=fullname]").val(),
+        email: $(tab + " input[name=email]").val(),
+        code: slugify($(tab + " input[name=fullname]").val().toLowerCase()),
+        cpf : $(tab + " input[name=cpf]").val(),
+        birthdate_day : $(tab + " input[name=birthdate_day]").val(),
+        birthdate_month: $(tab + " input[name=birthdate_month]").val(),
+        birthdate_year: $(tab + " input[name=birthdate_year]").val(),
+        phone_area_code: $(tab + " input[name=ddd]").val(),
+        phone_number: $(tab + " input[name=phone]").val(),
         billing_info: build_billing_info(),
         address: build_address()
     }
   return new Customer(customer_params);
 };
 
-var build_billing_info = function() {
+var build_billing_info = function(tab = "#tab1") {
   var billing_info_params = {
-      fullname : $("#holder_name").val(),
-      expiration_month: $("#expiration_month").val(),
-      expiration_year: $("#expiration_year").val(),
-      credit_card_number: $("#credit_card").val()
+      fullname : $(tab + " input[name=holder_name]").val(),
+      expiration_month: $(tab + " input[name=expiration_month]").val(),
+      expiration_year: $(tab + " input[name=expiration_year]").val(),
+      credit_card_number: $(tab + " input[name=credit_card]").val()
   };
   return new BillingInfo(billing_info_params);
 };
@@ -133,49 +142,49 @@ var build_new_billing_info = function() {
   return new BillingInfo(billing_info_params);
 };
 
-var build_address = function() {
+var build_address = function(tab = "#tab1") {
   var address_params = {
-      street: $("#rua").val(),
-      number: $("#numero").val(),
-      complement: $("#complemento").val(),
-      district: $("#bairro").val(),
-      zipcode: $("#cep").val(),
-      city: $("#cidade").val(),
-      state: $("#estado").val(),
+      street: $(tab + " input[name=rua]").val(),
+      number: $(tab + " input[name=numero]").val(),
+      complement: $(tab + " input[name=complemento]").val(),
+      district: $(tab + " input[name=bairro]").val(),
+      zipcode: $(tab + " input[name=cep]").val(),
+      city: $(tab + " input[name=cidade]").val(),
+      state: $(tab + " input[name=estado]").val(),
       country: "BRA"
   };
   return new Address(address_params);
 };
 
 var slugify = function(text) {
-    text = text.replace(/[^-a-zA-Z0-9,&\s]+/ig, '');
-    text = text.replace(/-/gi, "_");
-    text = text.replace(/\s/gi, "-");
-    return text;
+  text = text.replace(/[^-a-zA-Z0-9,&\s]+/ig, '');
+  text = text.replace(/-/gi, "_");
+  text = text.replace(/\s/gi, "-");
+  return text;
 }
 
-var fill_form = function() {
-    $("#fullname").val("David Luis da Silva");
-    $("#email").val("dluis@dluis.com");
-    $("#holder_name").val("David L Silva");
-    $("#credit_card").val("4111111111111111");
-    $("#cpf").val("22222222222");
-    $("#ddd").val("11");
-    $("#phone").val("88886666");
-    $("#rua").val("Rua dos Jogadores");
-    $("#numero").val("123");
-    $("#complemento").val("cobertura");
-    $("#bairro").val("Jd. das Mamgabeiras");
-    $("#cep").val("45555400");
-    $("#cidade").val("São Paulo");
-    $("#estado").val("São Paulo");
-    $("#birthdate_day").val("12");
-    $("#birthdate_month").val("12");
-    $("#birthdate_year").val("1985");
+var fill_form = function(tab = "#tab1") {
+  $(tab + " input[name=fullname]").val("David Luis da Silva");
+  $(tab + " input[name=email]").val("dluis@dluis.com");
+  $(tab + " input[name=holder_name]").val("David L Silva");
+  $(tab + " input[name=credit_card]").val("4111111111111111");
+  $(tab + " input[name=cpf]").val("22222222222");
+  $(tab + " input[name=ddd]").val("11");
+  $(tab + " input[name=phone]").val("88886666");
+  $(tab + " input[name=rua]").val("Rua dos Jogadores");
+  $(tab + " input[name=numero]").val("123");
+  $(tab + " input[name=complemento]").val("cobertura");
+  $(tab + " input[name=bairro]").val("Jd. das Mamgabeiras");
+  $(tab + " input[name=cep]").val("45555400");
+  $(tab + " input[name=cidade]").val("São Paulo");
+  $(tab + " input[name=estado]").val("São Paulo");
+  $(tab + " input[name=birthdate_day]").val("12");
+  $(tab + " input[name=birthdate_month]").val("12");
+  $(tab + " input[name=birthdate_year]").val("1985");
 };
 
 var fill_new_billing_info_form = function() {
-    $("#new_fullname").val("David Luis da Silva");
-    $("#new_holder_name").val("David L Silva");
-    $("#new_credit_card").val("4111111111111111");
+  $("#new_fullname").val("David Luis da Silva");
+  $("#new_holder_name").val("David L Silva");
+  $("#new_credit_card").val("4111111111111111");
 };

@@ -7,8 +7,9 @@
   <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
   <link href="css/assinaturas-demo.css" rel="stylesheet">
 
-  <script type="text/javascript" src="https://s3.amazonaws.com/assets-sandbox.moip.com.br/assinaturas/moip-assinaturas.min.js"></script>
-  <script type="text/javascript" src="//code.jquery.com/jquery-1.12.3.min.js"></script>
+  <!-- <script type="text/javascript" src="https://s3.amazonaws.com/assets-sandbox.moip.com.br/assinaturas/moip-assinaturas.min.js"></script> -->
+  <script type="text/javascript" src="js/moip-assinaturas.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
   <script type="text/javascript" src="js/assinaturas-demo.js"></script>
 </head>
 <body>
@@ -44,12 +45,13 @@
           <li class="active"><a href="#tab1" data-toggle="tab">Criar Assinatura</a></li>
           <li><a href="#tab3" data-toggle="tab">Criar assinatura com Cliente já existente</a></li>
           <li><a href="#tab2" data-toggle="tab">Atualizar cartão de crédito</a></li>
+          <li><a href="#tab4" data-toggle="tab">Criar apenas o cliente</a></li>
         </ul>
 
 
         <div class="tab-content">
           <div class="tab-pane active" id="tab1">
-            <legend>Dados do assinante (<a href="#" id="carregar_dados">Preencher Formulário</a>)</legend>
+            <legend>Dados do assinante (<a href="#" class="carregar_dados">Preencher Formulário</a>)</legend>
             <div class="control-group">
               <label class="control-label" for="fullname">Nome</label>
               <div class="controls">
@@ -326,6 +328,170 @@
         <a href="#" class="btn btn-large btn-primary" id="subscribe_with_customer">Assinar</a>
       </div>
     </form>
+  </div>
+
+  <!-- Criar um novo cliente -->
+  <div class="tab-pane" id="tab4">
+    <legend>Criar apenas Cliente (<a href="#" class="carregar_dados">Preencher Formulário</a>)</legend>
+
+    <div class="control-group">
+      <label class="control-label" for="fullname">Nome</label>
+      <div class="controls">
+        <input maxlength="150" name="fullname" placeholder="Seu nome completo" type="text">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="email">E-mail</label>
+      <div class="controls">
+        <input maxlength="65" name="email" placeholder="Seu e-mail" type="text">
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" for="cpf">CPF</label>
+      <div class="controls">
+        <input maxlength="11" name="cpf" placeholder="Somente números" type="text">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="phone">DDD / Telefone</label>
+      <div class="controls">
+        <input class="input-mini" name="ddd" maxlength="2" name="ddd" placeholder="00" type="text">
+        <input class="input-small" name="phone" maxlength="9" name="phone" placeholder="00000000" type="text">
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" for="birthdate">Nascimento</label>
+      <div class="controls">
+        <input class="input-mini" maxlength="2" name="birthdate_day" placeholder="DD" type="text">
+        <input class="input-mini" maxlength="2" name="birthdate_month" placeholder="MM" type="text">
+        <input class="input-mini" maxlength="4" name="birthdate_year" placeholder="AAAA" type="text">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="rua">Rua</label>
+      <div class="controls">
+        <input maxlength="45" name="rua" placeholder="Rua, Avenida, Praça..." type="text">
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" for="numero">Número</label>
+      <div class="controls">
+        <input class="input-mini" maxlength="20" name="numero" placeholder="Número" type="text">
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" for="complemento">Complemento</label>
+      <div class="controls">
+        <input class="input-mini" maxlength="45" name="complemento" placeholder="Complemento" type="text">
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" for="bairro">Bairro</label>
+      <div class="controls">
+        <input maxlength="45" name="bairro" placeholder="Bairro" type="text">
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" for="cep">CEP</label>
+      <div class="controls">
+        <input class="input-small" id="cep" maxlength="9" name="cep" placeholder="00000-000" type="text">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="estado">Estado</label>
+      <div class="controls">
+        <select name="estado" id="estado">
+          <option selected="" value="">Selecione o Estado (UF)</option>
+          <option value="Acre">Acre</option>
+          <option value="Alagoas">Alagoas</option>
+          <option value="Amapá">Amapá</option>
+          <option value="Amazonas">Amazonas</option>
+          <option value="Bahia">Bahia</option>
+          <option value="Ceará">Ceará</option>
+          <option value="Distrito Federal">Distrito Federal</option>
+          <option value="Espírito Santo">Espírito Santo</option>
+          <option value="Goiás">Goiás</option>
+          <option value="Maranhão">Maranhão</option>
+          <option value="Mato Grosso">Mato Grosso</option>
+          <option value="Mato Grosso do Sul">Mato Grosso do Sul</option>
+          <option value="Minas Gerais">Minas Gerais</option>
+          <option value="Pará">Pará</option>
+          <option value="Paraíba">Paraíba</option>
+          <option value="Paraná">Paraná</option>
+          <option value="Pernambuco">Pernambuco</option>
+          <option value="Piauí">Piauí</option>
+          <option value="Rio de Janeiro">Rio de Janeiro</option>
+          <option value="Rio Grande do Sul">Rio Grande do Sul</option>
+          <option value="Rio Grande do Norte">Rio Grande do Norte</option>
+          <option value="Rondônia">Rondônia</option>
+          <option value="Roraima">Roraima</option>
+          <option value="Santa Catarina">Santa Catarina</option>
+          <option value="São Paulo" selected="selected">São Paulo</option>
+          <option value="Sergipe">Sergipe</option>
+          <option value="Tocantins">Tocantins</option>
+        </select>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="cidade">Cidade</label>
+      <div class="controls">
+        <input id="cidade" maxlength="32" name="cidade" placeholder="Cidade" type="text">
+      </div>
+    </div>
+
+    <legend>Informações de Cobrança</legend>
+
+    <div class="control-group">
+      <label class="control-label" for="holder_name">Nome do Portador</label>
+      <div class="controls">
+        <input id="holder_name" maxlength="45" name="holder_name" placeholder="Nome escrito no cartão" type="text">
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" for="credit_card">Número Cartão de Credito</label>
+      <div class="controls">
+        <input id="credit_card" maxlength="16" name="credit_card" placeholder="XXXXXXXXXXXX1234" type="text">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="credit_card">Data de Expiração</label>
+      <div class="controls">
+        <select name="expiration_month" id="expiration_month" class="input-mini">
+          <option value="01">01</option>
+          <option value="02">02</option>
+          <option value="03">03</option>
+          <option value="04">04</option>
+          <option value="05">05</option>
+          <option value="06">06</option>
+          <option value="07">07</option>
+          <option value="08">08</option>
+          <option value="09">09</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12" selected="selected">12</option>
+        </select> / <select name="expiration_year" id="expiration_year" class="input-small">
+        <option value="13">2013</option>
+        <option value="14">2014</option>
+        <option value="15">2015</option>
+        <option value="16">2016</option>
+        <option value="17">2017</option>
+        <option value="18">2018</option>
+        <option value="19">2019</option>
+        <option value="20" selected="selected">2020</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-actions">
+    <a href="#" class="btn btn-large btn-primary" id="new_customer">Assinar</a>
+  </div>
+
   </div>
     <!-- Fim -->
 
